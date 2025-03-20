@@ -1,0 +1,11 @@
+.cardImage {
+  max-width: 5em;
+}
+
+.cardsList {
+  width: max-content;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px 2px;
+}

@@ -1,0 +1,41 @@
+
+.headerContainer {
+  font-size: 1.6em;
+  margin-block-start: 8px;
+}
+
+.menuContainer {
+  display: flex;
+  gap: 0.8em;
+  flex-direction: row;
+  margin-top: 2px;
+  margin-left: 1em;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  flex-wrap: wrap;
+  min-width: 330px;
+  z-index: 2;
+}
+
+.decksContainer {
+  position: sticky;
+  right: 0px;
+  top: 0px;
+  width: max-content;
+  height: fit-content;
+  z-index: 1;
+}
+
+.previewContainer {
+  position: sticky;
+  right: 4px;
+  top: 8px;
+  width: 30vw;
+  height: 60vh;
+}
+
+

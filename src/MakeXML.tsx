@@ -1,6 +1,8 @@
 
 import { ImageDataType } from "./ImageData"
 
+//ユドナリウムで利用可能にするためのXML文書設定
+
 const xmlTemplate = (cardList: string[]) => `
 <?xml version="1.0" encoding="UTF-8"?>
 <card-stack location.name="table" location.x="0" location.y="0" posZ="0" rotate="0" zindex="0" owner="" isShowTotal="true">

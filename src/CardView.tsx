@@ -288,4 +288,4 @@ const TextView = ({cardType, text, color, power, cost, condition, race}: TextDat
   );
 }
 
-export { CardView };
+export { CardView, cardTypeConvert };

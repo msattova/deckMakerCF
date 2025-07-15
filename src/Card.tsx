@@ -20,6 +20,23 @@ type CardType = {
   type: CardCategory;
 }
 
+const toCardCategoryfromString = (card_type: string): CardCategory => {
+  switch (card_type) {
+    case "fragment":
+      return "fragment";
+    case "arts":
+      return "arts";
+    case "kin":
+      return "kin";
+    case "relic":
+      return "relic";
+    case "territory":
+      return "territory";
+    default:
+      return undefined;
+  }
+};
+
 const isCardCategory = (str: string | undefined): str is CardCategory => {
   return str !== undefined && ["fragment", "arts", "kin", "relic", "territory"].includes(str);
 }
@@ -88,6 +105,12 @@ const AddableCard = ({ card, setCardItems, cardItems, cardLimit }: AddableCardTy
 };
 
 
-export { AddableCard, RemovableCard, Card, isCardCategory };
+export {
+  AddableCard,
+  RemovableCard,
+  Card,
+  isCardCategory,
+  toCardCategoryfromString
+  };
 export type { CardType, CardCategory };
 

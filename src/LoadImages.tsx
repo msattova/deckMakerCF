@@ -2,7 +2,8 @@ import cardList from "./assets/cards.json"
 import cardstyle from "./imageStyle.module.css"
 import { cardData } from "./assets/json"
 import { v4 as uuidv4 } from "uuid"
-import { Card, isCardCategory } from "./Card"
+import { Card, isCardCategory, toCardCategoryfromString } from "./Card"
+import { cardTypeConvert } from "./CardView"
 
 
 
@@ -14,7 +15,7 @@ const LoadCards = () => {
     ([key, val]) =>
       <div key={uuidv4()}>
         <details>
-          <summary>{key}</summary>
+          <summary>{cardTypeConvert(toCardCategoryfromString( key))}</summary>
         <div className={cardstyle.cardsList}>
           {val.map( (elm) =>
              <Card key={uuidv4()}

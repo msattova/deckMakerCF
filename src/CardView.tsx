@@ -1,12 +1,50 @@
 import {v4 as uuidv4} from "uuid"
 
-import { CardCategory } from "./Card";
+import { CardCategory, CardType } from "./Card";
 import { usePreviewCard } from "./previewContext";
 import { selectCard } from "./ControlSqlite";
 
 import cardViewStyle from "./cardViewStyle.module.css"
 
-const CardView = () => {
+const addCardItem = (
+  src: string,
+  type: CardCategory,
+  cardItems: CardType[],
+  cardLimit: number,
+  setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>
+) => {
+  setCardItems((prev) => [
+    ...prev,
+    {
+      id: uuidv4(),
+      src: src,
+      type: type,
+    },
+  ]);
+  //もし上限枚数より多ければ最初に追加されたカードを取り除く
+  if (cardItems.length >= cardLimit) {
+    setCardItems((prev) => prev.slice(1, cardLimit + 1));
+  }
+};
+
+const removeCardItem = (
+  id: string,
+  setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>
+) => {
+  setCardItems((prev) => prev.filter((elm) => elm.id != id));
+};
+
+type CardView = {
+  setPlayingItems: React.Dispatch<React.SetStateAction<CardType[]>>;
+  setLifeItems: React.Dispatch<React.SetStateAction<CardType[]>>;
+  setFragment: React.Dispatch<React.SetStateAction<CardType | undefined>>;
+  playingItems: CardType[];
+  lifeItems: CardType[];
+  playingLimit: number;
+  lifeLimit: number;
+};
+
+const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setFragment, playingLimit, lifeLimit }: CardView) => {
   const previewCard = usePreviewCard();
 
   //console.log("cardView", previewCard);
@@ -55,20 +93,54 @@ const CardView = () => {
               display: "flex",
               flexDirection: "row",
               rowGap: "4px",
-              margin: "auto"
+              margin: "auto",
             }}
           >
-            {cardData.card_type == "fragment" ?
-            <button type="button">Into Deck</button>
-            :
-            <>
-            <button type="button">+1 Play</button>
-            <button type="button">-1 Play</button>
-            <button type="button">+1 Life</button>
-            <button type="button">-1 Life</button>
-            </>
-          }
-
+            {cardData.card_type == "fragment" ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setFragment({
+                    id: uuidv4(),
+                    src: previewCard.src,
+                    type: previewCard.type,
+                  });
+                }}
+              >
+                Into Deck
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    addCardItem(
+                      previewCard.src,
+                      previewCard.type,
+                      playingItems,
+                      playingLimit,
+                      setPlayingItems
+                    );
+                  }}
+                >
+                  +1 Play
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    addCardItem(
+                      previewCard.src,
+                      previewCard.type,
+                      lifeItems,
+                      lifeLimit,
+                      setLifeItems
+                    );
+                  }}
+                >
+                  +1 Life
+                </button>
+              </>
+            )}
           </div>
 
           {cardData ? (

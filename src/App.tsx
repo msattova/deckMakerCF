@@ -6,7 +6,7 @@ import styles from "./style.module.css";
 
 import { LoadCards } from "./LoadImages";
 import { DeckArea, FragmentArea } from "./DeckArea";
-import { CardType } from "./Card";
+import { CardCategory, CardType } from "./Card";
 import { CardView } from "./CardView";
 import { PreviewProvider } from "./previewContext";
 
@@ -123,16 +123,26 @@ const DeckEditMenu = () => {
 
 function App() {
   initializeSQLite();
+
+
+  const [playingItems, setPlayingItems] = useState<CardType[]>([]);
+  const [lifeItems, setLifeItems] = useState<CardType[]>([]);
+  const [fragment, setFragment] = useState<CardType>();
+
   return (
-    <div style={{
-      margin: "0 auto"
-    }}>
+    <div
+      style={{
+        margin: "0 auto",
+      }}
+    >
       <header>
         <h1 className={styles.headerContainer}>DeckMaker</h1>
       </header>
-      <details style={{
-        fontSize: "0.8em"
-      }}>
+      <details
+        style={{
+          fontSize: "0.8em",
+        }}
+      >
         <summary>取扱説明書</summary>
         <ul>
           <li>ドラッグアンドドロップでカードを移動させて、デッキに登録</li>
@@ -147,9 +157,56 @@ function App() {
             columnGap: "8px",
           }}
         >
-          <DeckEditMenu />
+          <div className={styles.menuContainer}>
+            <div className={styles.cardsContainer}>
+              <h2>カード一覧</h2>
+              <LoadImagedMemo />
+            </div>
+            <div className={styles.decksContainer}>
+              <h2>デッキ内容</h2>
+              <FragmentArea id="fragment" card={fragment} />
+              <DeckArea
+                id="playingdeck"
+                title="プレイングデッキ"
+                cards={playingItems}
+                limit={playingLimit}
+                downloadName={
+                  fragment
+                    ? `【${fragment.src
+                        .split("/")
+                        .pop()
+                        ?.replace(".png", "")}】プレイングデッキ`
+                    : "プレイングデッキ"
+                }
+                setCardItems={setPlayingItems}
+              />
+              <DeckArea
+                id="lifedeck"
+                title="ライフデッキ"
+                cards={lifeItems}
+                limit={lifeLimit}
+                downloadName={
+                  fragment
+                    ? `【${fragment.src
+                        .split("/")
+                        .pop()
+                        ?.replace(".png", "")}】ライフデッキ`
+                    : "ライフデッキ"
+                }
+                setCardItems={setLifeItems}
+              />
+            </div>
+          </div>
           <div className={styles.previewContainer}>
-            <CardView />
+            <CardView
+              playingItems={playingItems}
+              lifeItems={lifeItems}
+              setPlayingItems={setPlayingItems}
+              setLifeItems={setLifeItems}
+              setFragment={setFragment}
+              playingLimit={playingLimit}
+              lifeLimit={lifeLimit}
+              />
           </div>
         </div>
       </PreviewProvider>

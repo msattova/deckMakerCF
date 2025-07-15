@@ -1,7 +1,6 @@
-import { useDroppable } from "@dnd-kit/core";
 import { v4 as uuidv4 } from "uuid";
 
-import { CardType, ClickableCard, Card } from "./Card";
+import { CardType, RemovableCard, Card } from "./Card";
 import deckStyles from "./deckStyle.module.css"
 import { DownloadDeckButton, DownloadCardButton } from "./DownloadZip";
 import { useCallback, useState } from "react";
@@ -16,11 +15,10 @@ type DeckListType = {
 
 //デッキ一覧表示コンポーネント
 const DeckList = ({cards, id, limit, setCardItems, isShrink}: DeckListType) => {
-  const { isOver, setNodeRef} = useDroppable({id: id});
+  //const { isOver, setNodeRef} = useDroppable({id: id});
   const rowCardsNum = 5;
   return (
     <div
-      ref={setNodeRef}
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${rowCardsNum}, 82px)`,
@@ -34,11 +32,11 @@ const DeckList = ({cards, id, limit, setCardItems, isShrink}: DeckListType) => {
         width: `${rowCardsNum*84}px`,
         overflowY: isShrink ? "scroll" : "clip",
         overflowX: "hidden",
-        backgroundColor: isOver ? "lightblue" : "lightgray",
+        backgroundColor: "lightgray",
       }}
     >
       {cards.map((card) => (
-        <ClickableCard key={card.id} card={card} setCardItems={setCardItems} />
+        <RemovableCard key={card.id} card={card} setCardItems={setCardItems} />
       ))}
     </div>
   );
@@ -86,7 +84,6 @@ type FragmentAreaType = {
 };
 
 const FragmentArea = ({id, card}: FragmentAreaType) => {
-  const { isOver, setNodeRef} = useDroppable({id: id});
   const filename = card ? card.src.split('/').pop()?.replace(".png", "") : "";
 
   // console.log("FragmentArea", card);
@@ -106,13 +103,12 @@ const FragmentArea = ({id, card}: FragmentAreaType) => {
       >
         <div className={deckStyles.deckContainer}>
           <div
-            ref={setNodeRef}
             style={{
               color: "#333",
               width: "fit-content",
               padding: "2px",
               minWidth: "fit-content",
-              backgroundColor: isOver ? "lightblue" : "lightgray",
+              backgroundColor: "lightgray",
             }}
           >
             {card ? (

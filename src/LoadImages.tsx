@@ -2,7 +2,7 @@ import cardList from "./assets/cards.json"
 import cardstyle from "./imageStyle.module.css"
 import { cardData } from "./assets/json"
 import { v4 as uuidv4 } from "uuid"
-import { DraggableCard, isCardCategory } from "./Card"
+import { Card, isCardCategory } from "./Card"
 
 
 
@@ -17,7 +17,11 @@ const LoadCards = () => {
           <summary>{key}</summary>
         <div className={cardstyle.cardsList}>
           {val.map( (elm) =>
-             <DraggableCard key={uuidv4()} id={uuidv4()}  src={`/cards/${key}/${elm}`} type={isCardCategory(key) ? key : undefined} />
+             <Card key={uuidv4()}
+                id={uuidv4()}
+                src={`/cards/${key}/${elm}`}
+                type={isCardCategory(key) ? key : undefined}
+              />
           )}
         </div>
         </details>

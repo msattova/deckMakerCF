@@ -37,30 +37,19 @@ const Card = ({ id, src, type }: CardType) => {
   );
 }
 
-const DraggableCard = ({id, src, type}: CardType) => {
-  const { setNodeRef, listeners, attributes, transform, isDragging } = useDraggable({id: id, data: {src: src, type: type}});
-
-
-  const transformStyle = transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined;
-
-  return (
-    <div ref={setNodeRef} {...attributes} {...listeners}
-    style={{
-      transform: transformStyle,
-      height: "fit-content",
-      cursor: isDragging ? "grabbing" : "grab"
-    }}>
-      <Card id={id} src={src} type={type}/>
-    </div>
-  );
-};
-
 type ClickableCardType = {
   card: CardType;
   setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
 }
 
-const ClickableCard = ({card, setCardItems}: ClickableCardType) => {
+type AddableCardType = {
+  card: CardType;
+  setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
+  cardItems: CardType[];
+  cardLimit: number;
+};
+
+const RemovableCard = ({card, setCardItems}: ClickableCardType) => {
   const {id, src, type} = card;
   return (
   <div
@@ -73,7 +62,32 @@ const ClickableCard = ({card, setCardItems}: ClickableCardType) => {
   );
 };
 
+const AddableCard = ({ card, setCardItems, cardItems, cardLimit }: AddableCardType) => {
+  const { id, src, type } = card;
+  return (
+    <div
+      onDoubleClick={(event) => {
+        console.log("double: " + event);
+        setCardItems((prev) => [
+                    ...prev,
+                    {
+                      id: uuidv4(),
+                      src: src,
+                      type: type,
+                    },
+                  ]);
+        //もし上限枚数より多ければ最初に追加されたカードを取り除く
+        if (cardItems.length >= cardLimit) {
+          setCardItems((prev) => prev.slice(1, cardLimit + 1));
+        }
+      }}
+    >
+      <Card id={id} src={src} type={type} />
+    </div>
+  );
+};
 
-export { ClickableCard, DraggableCard, Card, isCardCategory };
+
+export { AddableCard, RemovableCard, Card, isCardCategory };
 export type { CardType, CardCategory };
 

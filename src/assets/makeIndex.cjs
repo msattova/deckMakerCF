@@ -1,7 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-/* 取得すべきカード一覧のファイル名をあらかじめJSONファイルに記載しておく */
+/*
+取得すべきカード一覧のファイル名をあらかじめJSONファイルに記載しておく。
+このプログラムは`node`コマンドで実行する。
+*/
+
 
 const dirs = ["arts", "fragment", "relic", "kin", "territory"];
 

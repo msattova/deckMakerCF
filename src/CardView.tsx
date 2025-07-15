@@ -27,12 +27,14 @@ const addCardItem = (
   }
 };
 
+/*
 const removeCardItem = (
   id: string,
   setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>
 ) => {
   setCardItems((prev) => prev.filter((elm) => elm.id != id));
 };
+*/
 
 type CardView = {
   setPlayingItems: React.Dispatch<React.SetStateAction<CardType[]>>;

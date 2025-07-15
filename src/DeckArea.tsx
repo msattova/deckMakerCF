@@ -14,7 +14,7 @@ type DeckListType = {
 };
 
 //デッキ一覧表示コンポーネント
-const DeckList = ({cards, id, limit, setCardItems, isShrink}: DeckListType) => {
+const DeckList = ({cards, limit, setCardItems, isShrink}: DeckListType) => {
   //const { isOver, setNodeRef} = useDroppable({id: id});
   const rowCardsNum = 5;
   return (
@@ -83,7 +83,7 @@ type FragmentAreaType = {
   card: CardType | undefined
 };
 
-const FragmentArea = ({id, card}: FragmentAreaType) => {
+const FragmentArea = ({card}: FragmentAreaType) => {
   const filename = card ? card.src.split('/').pop()?.replace(".png", "") : "";
 
   // console.log("FragmentArea", card);

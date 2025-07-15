@@ -1,5 +1,4 @@
 
-import { useDraggable } from "@dnd-kit/core";
 import cardstyle from "./imageStyle.module.css"
 import { useSetPreviewCard } from "./previewContext";
 import { useCallback } from "react";

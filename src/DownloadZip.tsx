@@ -38,7 +38,9 @@ const compress = async (
 
 const getImage = async (src: string): Promise<ImageDataType> => {
     //console.log("src:", src);
-    const res = await axios.get(src, {responseType: "arraybuffer"});
+    const res = await axios.get(`${import.meta.env.BASE_URL}${src.slice(1)}`, {
+      responseType: "arraybuffer",
+    });
     //console.log("res", res);
     const arrayBuffer = res.data;
     const wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
@@ -55,7 +57,6 @@ const getImage = async (src: string): Promise<ImageDataType> => {
       id: uuidv4(),
       blob: blob,
     };
-
 
   return imageData;
 };
@@ -97,9 +98,7 @@ const DownloadDeckButton = ({
 
   const downloadZipFile = async () => {
     const imageDataList = targetFiles.map((file) => getImage(file.src));
-    const backImage = await getImage(
-      `${import.meta.env.BASE_URL}cards/backImage.png`
-    );
+    const backImage = await getImage( "cards/backImage.png" );
     //console.log("back:", backImage);
     Promise.all(imageDataList).then((resolved) => {
       const compressfiles = makeFiles(resolved, backImage);

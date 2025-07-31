@@ -1,6 +1,7 @@
 {
   "name": "deckmakercf",
   "private": true,
+  "homepage": "https://msattova.github.io/deckMakerCF/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

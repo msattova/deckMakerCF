@@ -19,6 +19,11 @@ type CardType = {
   type: CardCategory;
 }
 
+type CountCardType = {
+  id: string;
+  num: number;
+};
+
 const toCardCategoryfromString = (card_type: string): CardCategory => {
   switch (card_type) {
     case "fragment":
@@ -60,25 +65,29 @@ const Card = ({ id, src, type }: CardType) => {
   );
 }
 
-type ClickableCardType = {
+type RemovableCardType = {
   card: CardType;
   setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
-}
+  setCountCard: React.Dispatch<React.SetStateAction<CountCardType[]>>;
+};
 
 type AddableCardType = {
   card: CardType;
   setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
   cardItems: CardType[];
   cardLimit: number;
+  countCard: CountCardType[];
 };
 
-const RemovableCard = ({card, setCardItems}: ClickableCardType) => {
+const RemovableCard = ({card, setCardItems, setCountCard}: RemovableCardType) => {
   const {id, src, type} = card;
   return (
   <div
   onDoubleClick={(event)=>{
     console.log("double: "+event);
     setCardItems((prev) => prev.filter(elm => elm.id!=id));
+
+    setCountCard((prev) => prev.map(elm => elm.id == src ? {id: src, num: elm.num-1 } : {id: src, num: elm.num}));
   }}>
     <Card id={id} src={src} type={type}/>
   </div>
@@ -89,16 +98,16 @@ const AddableCard = ({ card, setCardItems, cardItems, cardLimit }: AddableCardTy
   const { id, src, type } = card;
   return (
     <div
-      onDoubleClick={(event) => {
-        console.log("double: " + event);
+      onDoubleClick={(_) => {
         setCardItems((prev) => [
-                    ...prev,
-                    {
-                      id: uuidv4(),
-                      src: src,
-                      type: type,
-                    },
-                  ]);
+          ...prev,
+          {
+            id: uuidv4(),
+            card_id: id,
+            src: src,
+            type: type,
+          },
+        ]);
         //もし上限枚数より多ければ最初に追加されたカードを取り除く
         if (cardItems.length >= cardLimit) {
           setCardItems((prev) => prev.slice(1, cardLimit + 1));
@@ -118,5 +127,5 @@ export {
   isCardCategory,
   toCardCategoryfromString
   };
-export type { CardType, CardCategory };
+export type { CardType, CountCardType, CardCategory };
 

@@ -4,7 +4,7 @@ import styles from "./style.module.css";
 
 import { LoadCards } from "./LoadImages";
 import { DeckArea, FragmentArea } from "./DeckArea";
-import { CardType } from "./Card";
+import { CardType, CountCardType } from "./Card";
 import { CardView } from "./CardView";
 import { PreviewProvider } from "./previewContext";
 
@@ -15,8 +15,7 @@ const LoadImagedMemo = memo(() => <LoadCards />);
 
 const playingLimit = 30;
 const lifeLimit = 10;
-
-
+const sameCardLimit = 4;
 
 function App() {
   initializeSQLite();
@@ -25,6 +24,7 @@ function App() {
   const [playingItems, setPlayingItems] = useState<CardType[]>([]);
   const [lifeItems, setLifeItems] = useState<CardType[]>([]);
   const [fragment, setFragment] = useState<CardType>();
+  const [countCard, setCountCard] = useState<CountCardType[]>([]);
 
   return (
     <div
@@ -47,7 +47,10 @@ function App() {
           <li>「+1 Play」でプレイングデッキにカードを登録</li>
           <li>「+1 Life」でライフデッキにカードを登録</li>
           <li>デッキのカードをダブルクリックでカード削除</li>
-          <li>デッキが完成したら"Download ZIP"からユドナリウムにドラッグアンドドロップ可能な形式のZIPファイルをダウンロード可能です</li>
+          <li>
+            デッキが完成したら"Download
+            ZIP"からユドナリウムにドラッグアンドドロップ可能な形式のZIPファイルをダウンロード可能です
+          </li>
         </ul>
       </details>
       <details
@@ -57,8 +60,12 @@ function App() {
       >
         <summary>デッキの構築ルール</summary>
         <ul>
-          <li>デッキはリーダーとなるカードである「真祖の断片」1枚、山札となるプレイングデッキ30枚、プレイヤーの命となるライフデッキ10枚から構成されます</li>
-          <li>※デッキの上限枚数を越えてカードを登録した場合、最初に登録されたカードから削除されます</li>
+          <li>
+            デッキはリーダーとなるカードである「真祖の断片」1枚、山札となるプレイングデッキ30枚、プレイヤーの命となるライフデッキ10枚から構成されます
+          </li>
+          <li>
+            ※デッキの上限枚数を越えてカードを登録した場合、最初に登録されたカードから削除されます
+          </li>
         </ul>
       </details>
       <PreviewProvider>
@@ -91,6 +98,8 @@ function App() {
                     : "プレイングデッキ"
                 }
                 setCardItems={setPlayingItems}
+                countCard={countCard}
+                setCountCard={setCountCard}
               />
               <DeckArea
                 id="lifedeck"
@@ -106,6 +115,8 @@ function App() {
                     : "ライフデッキ"
                 }
                 setCardItems={setLifeItems}
+                countCard={countCard}
+                setCountCard={setCountCard}
               />
             </div>
           </div>
@@ -118,6 +129,9 @@ function App() {
               setFragment={setFragment}
               playingLimit={playingLimit}
               lifeLimit={lifeLimit}
+              countCard={countCard}
+              setCountCard={setCountCard}
+              sameCardLimit={sameCardLimit}
             />
           </div>
         </div>

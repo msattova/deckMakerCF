@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { CardType, RemovableCard, Card } from "./Card";
+import { CardType, RemovableCard, Card, CountCardType } from "./Card";
 import deckStyles from "./deckStyle.module.css"
 import { DownloadDeckButton, DownloadCardButton } from "./DownloadZip";
 import { useCallback, useState } from "react";
@@ -11,10 +11,11 @@ type DeckListType = {
   limit: number;
   setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
   isShrink: boolean;
+  setCountCard: React.Dispatch<React.SetStateAction<CountCardType[]>>;
 };
 
 //デッキ一覧表示コンポーネント
-const DeckList = ({cards, limit, setCardItems, isShrink}: DeckListType) => {
+const DeckList = ({cards, limit, setCardItems, isShrink, setCountCard}: DeckListType) => {
   //const { isOver, setNodeRef} = useDroppable({id: id});
   const rowCardsNum = 5;
   return (
@@ -36,7 +37,7 @@ const DeckList = ({cards, limit, setCardItems, isShrink}: DeckListType) => {
       }}
     >
       {cards.map((card) => (
-        <RemovableCard key={card.id} card={card} setCardItems={setCardItems} />
+        <RemovableCard key={card.id} card={card} setCardItems={setCardItems} setCountCard={setCountCard}/>
       ))}
     </div>
   );
@@ -49,9 +50,11 @@ type DeckAreaType = {
   downloadName: string;
   cards: CardType[];
   setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
+  countCard: CountCardType[];
+  setCountCard: React.Dispatch<React.SetStateAction<CountCardType[]>>;
 };
 
-const DeckArea = ({id, title, cards, limit, downloadName, setCardItems}: DeckAreaType) => {
+const DeckArea = ({id, title, cards, limit, downloadName, setCardItems, setCountCard}: DeckAreaType) => {
   const [isShrink, setIsShrink] = useState<boolean>(true);
   const toggleShrink = useCallback(()=>{
     setIsShrink(!isShrink);
@@ -72,7 +75,7 @@ const DeckArea = ({id, title, cards, limit, downloadName, setCardItems}: DeckAre
         <button onClick={toggleShrink}>{isShrink ? "拡大" : "縮小"}</button>
       </div>
       <div className={deckStyles.deckContainer}>
-        <DeckList id={id} cards={cards} limit={limit} setCardItems={setCardItems} isShrink={isShrink}/>
+        <DeckList id={id} cards={cards} limit={limit} setCardItems={setCardItems} isShrink={isShrink} setCountCard={setCountCard} />
       </div>
     </div>
   );

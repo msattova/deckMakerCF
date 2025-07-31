@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid"
 
-import { CardCategory, CardType } from "./Card";
+import { CardCategory, CardType, CountCardType } from "./Card";
 import { usePreviewCard } from "./previewContext";
 import { selectCard } from "./ControlSqlite";
 
@@ -11,8 +11,16 @@ const addCardItem = (
   type: CardCategory,
   cardItems: CardType[],
   cardLimit: number,
-  setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>
+  countCard: CountCardType[],
+  setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>,
+  setCountCard: React.Dispatch<React.SetStateAction<CountCardType[]>>,
+  sameCardLimit: number
 ) => {
+  console.log(countCard)
+  // すでにカードが同名カードの上限枚数分デッキに入っているなら追加しない
+  if (countCard.length != 0 && countCard.filter(elm => elm.id == src).length != 0 && countCard.filter(elm => elm.id == src)[0].num == sameCardLimit){
+    return;
+  }
   setCardItems((prev) => [
     ...prev,
     {
@@ -21,6 +29,27 @@ const addCardItem = (
       type: type,
     },
   ]);
+  setCountCard((prev) => {
+    // 追加したカードがなければ新しく追加
+    if (prev.filter(elm => elm.id == src).length == 0){
+      return [
+        ...prev,
+        {
+          id: src,
+          num: 1
+        }
+      ]
+    }
+    else{
+      return [
+        ...prev.filter((elm) => elm.id != src),
+        {
+          id: src,
+          num: prev.filter((elm) => elm.id == src)[0].num+1
+        },
+      ];
+    }
+  })
   //もし上限枚数より多ければ最初に追加されたカードを取り除く
   if (cardItems.length >= cardLimit) {
     setCardItems((prev) => prev.slice(1, cardLimit + 1));
@@ -44,9 +73,12 @@ type CardView = {
   lifeItems: CardType[];
   playingLimit: number;
   lifeLimit: number;
+  countCard: CountCardType[];
+  setCountCard: React.Dispatch<React.SetStateAction<CountCardType[]>>;
+  sameCardLimit: number;
 };
 
-const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setFragment, playingLimit, lifeLimit }: CardView) => {
+const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setFragment, playingLimit, lifeLimit, countCard, setCountCard, sameCardLimit }: CardView) => {
   const previewCard = usePreviewCard();
 
   //console.log("cardView", previewCard);
@@ -55,7 +87,6 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
 
   const result = filename ? selectCard(filename, previewCard.type) : [];
   const cardData = (result.length != 0 ? result[0] : null );
-  console.log("cardData", cardData);
   return (
     <div>
       {previewCard.src != "" ? (
@@ -121,7 +152,10 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                       previewCard.type,
                       playingItems,
                       playingLimit,
-                      setPlayingItems
+                      countCard,
+                      setPlayingItems,
+                      setCountCard,
+                      sameCardLimit
                     );
                   }}
                 >
@@ -135,7 +169,10 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                       previewCard.type,
                       lifeItems,
                       lifeLimit,
-                      setLifeItems
+                      countCard,
+                      setLifeItems,
+                      setCountCard,
+                      sameCardLimit
                     );
                   }}
                 >

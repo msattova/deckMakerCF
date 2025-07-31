@@ -48,9 +48,15 @@ const Card = ({ id, src, type }: CardType) => {
     setCard({ id: uuidv4(), src: src, type: type });
   }, [setCard]);
   return (
-  <div onClick={set}>
-    <img key={id} className={cardstyle.cardImage} src={`${base}${src}`} title={filename} alt={`${filename}(${type})`}/>
-  </div>
+    <div onClick={set}>
+      <img
+        key={id}
+        className={cardstyle.cardImage}
+        src={`${import.meta.env.BASE_URL}${src}`}
+        title={filename}
+        alt={`${filename}(${type})`}
+      />
+    </div>
   );
 }
 

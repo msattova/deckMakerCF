@@ -97,7 +97,9 @@ const DownloadDeckButton = ({
 
   const downloadZipFile = async () => {
     const imageDataList = targetFiles.map((file) => getImage(file.src));
-    const backImage = await getImage("/cards/backImage.png");
+    const backImage = await getImage(
+      `${import.meta.env.BASE_URL}cards/backImage.png`
+    );
     //console.log("back:", backImage);
     Promise.all(imageDataList).then((resolved) => {
       const compressfiles = makeFiles(resolved, backImage);

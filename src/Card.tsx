@@ -46,6 +46,7 @@ const Card = ({ id, src, type }: CardType) => {
   const set = useCallback(() => {
     setCard({ id: uuidv4(), src: src, type: type });
   }, [setCard]);
+  // src単体だと先頭に'/'が含まれてしまうのでsliceで1文字目の'/'を抜いている
   return (
     <div onClick={set}>
       <img

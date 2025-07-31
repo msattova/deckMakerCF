@@ -85,7 +85,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                 maxHeight: "32vh",
                 width: "fit-content",
               }}
-              src={previewCard.src}
+              src={`${import.meta.env.BASE_URL}${previewCard.src.slice(1)}`}
               title={filename}
               alt={`${filename}(${previewCard.type})`}
             />

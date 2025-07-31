@@ -41,6 +41,7 @@ const isCardCategory = (str: string | undefined): str is CardCategory => {
 }
 
 const Card = ({ id, src, type }: CardType) => {
+  const base = process.env.GITHUB_PAGES ? "/deckMakerCF/" : "./";
   const filename = src.split('/').pop()?.replace(".png", "");
   const setCard = useSetPreviewCard();
   const set = useCallback(() => {
@@ -48,7 +49,7 @@ const Card = ({ id, src, type }: CardType) => {
   }, [setCard]);
   return (
   <div onClick={set}>
-    <img key={id} className={cardstyle.cardImage} src={src} title={filename} alt={`${filename}(${type})`}/>
+    <img key={id} className={cardstyle.cardImage} src={`${base}${src}`} title={filename} alt={`${filename}(${type})`}/>
   </div>
   );
 }

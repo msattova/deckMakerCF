@@ -4,7 +4,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/deckMakerCF/",
+  base: process.env.GITHUB_PAGES ? "/deckMakerCF/" : "./",
   plugins: [react(), visualizer()],
   build: {
     rollupOptions: {

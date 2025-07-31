@@ -52,7 +52,7 @@ const Card = ({ id, src, type }: CardType) => {
       <img
         key={id}
         className={cardstyle.cardImage}
-        src={`${import.meta.env.BASE_URL}${src}`}
+        src={`${import.meta.env.BASE_URL}${src.slice(1)}`}
         title={filename}
         alt={`${filename}(${type})`}
       />

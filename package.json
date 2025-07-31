@@ -19,6 +19,7 @@
     "fflate": "^0.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.7.1",
     "uuid": "^11.0.5"
   },
   "devDependencies": {

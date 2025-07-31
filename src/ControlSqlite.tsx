@@ -44,12 +44,12 @@ VALUES (
 )`;
 
 const connectDB = (sqlite3: Sqlite3Static) => {
-  log("Running SQLite3 version", sqlite3.version.libVersion);
+  //log("Running SQLite3 version", sqlite3.version.libVersion);
 
   // OPFSを利用
   db = new sqlite3.oo1.DB("file:local?vfs=kvvfs", "ct");
 
-  console.log(`DB size: ${sqlite3.capi.sqlite3_js_kvvfs_size()}`);
+  //console.log(`DB size: ${sqlite3.capi.sqlite3_js_kvvfs_size()}`);
 
   return db;
 };
@@ -102,7 +102,7 @@ const resisterJSON = (db: Database) => {
     rowMode: "object",
     resultRows: result,
   });
-  console.log(result);
+  //console.log(result);
   if (result.length == cardData.length){
     return;
   }
@@ -132,13 +132,13 @@ const selectCard = (name: string, type: CardCategory): any[] => {
 };
 
 const start = async (sqlite3: Sqlite3Static) => {
-  log("Running SQLite3 version", sqlite3.version.libVersion);
+  //log("Running SQLite3 version", sqlite3.version.libVersion);
   if (db) {
     return db;
   }
   try {
     db = connectDB(sqlite3);
-    console.log("connect SUCCESS");
+    //console.log("connect SUCCESS");
     //開発用。データベースをまっさらな状態にするためにテーブルを削除
     //db.exec("DROP TABLE cards");
 
@@ -167,7 +167,7 @@ const start = async (sqlite3: Sqlite3Static) => {
       rowMode: "object",
       resultRows: result,
     });
-    console.log(result);
+    //console.log(result);
   } catch (err: any){
     error("start()",err);
   }
@@ -175,12 +175,12 @@ const start = async (sqlite3: Sqlite3Static) => {
 
 const initializeSQLite = async () => {
   try {
-    log("Loading and initializing SQLite3 module ...");
+    //log("Loading and initializing SQLite3 module ...");
     const sqlite3 = await sqlite3InitModule({
       print: log,
       printErr: error,
     });
-    log("Done initializeing. Running demo...");
+    //log("Done initializeing. Running demo...");
     start(sqlite3);
   } catch (err: any) {
     error("Initialization error:", err.name, err.message);

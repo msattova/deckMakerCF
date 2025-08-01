@@ -83,8 +83,8 @@ const RemovableCard = ({card, setCardItems, setCountCard}: RemovableCardType) =>
   const {id, src, type} = card;
   return (
   <div
-  onDoubleClick={(event)=>{
-    console.log("double: "+event);
+  onDoubleClick={(_)=>{
+    //console.log("double: "+event);
     setCardItems((prev) => prev.filter(elm => elm.id!=id));
 
     setCountCard((prev) => prev.map(elm => elm.id == src ? {id: src, num: elm.num-1 } : {id: src, num: elm.num}));

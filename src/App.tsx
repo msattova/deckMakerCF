@@ -2,6 +2,7 @@ import { memo, useState } from "react";
 
 import styles from "./style.module.css";
 
+import { Header } from "./static_text/Header";
 import { LoadCards } from "./LoadImages";
 import { DeckArea, FragmentArea } from "./DeckArea";
 import { CardType, CountCardType } from "./Card";
@@ -32,42 +33,7 @@ function App() {
         margin: "0 auto",
       }}
     >
-      <header>
-        <h1 className={styles.headerContainer}>DeckMaker</h1>
-      </header>
-      <details
-        style={{
-          fontSize: "0.8em",
-        }}
-      >
-        <summary>取扱説明書</summary>
-        <ul>
-          <li>カード画像をクリックすると画面右側にカード情報が表示されます</li>
-          <li>「Into Deck」で真祖の断片をデッキに登録</li>
-          <li>「+1 Play」でプレイングデッキにカードを登録</li>
-          <li>「+1 Life」でライフデッキにカードを登録</li>
-          <li>デッキのカードをダブルクリックでカード削除</li>
-          <li>
-            デッキが完成したら"Download
-            ZIP"からユドナリウムにドラッグアンドドロップ可能な形式のZIPファイルをダウンロード可能です
-          </li>
-        </ul>
-      </details>
-      <details
-        style={{
-          fontSize: "0.8em",
-        }}
-      >
-        <summary>デッキの構築ルール</summary>
-        <ul>
-          <li>
-            デッキはリーダーとなるカードである「真祖の断片」1枚、山札となるプレイングデッキ30枚、プレイヤーの命となるライフデッキ10枚から構成されます
-          </li>
-          <li>
-            ※デッキの上限枚数を越えてカードを登録した場合、最初に登録されたカードから削除されます
-          </li>
-        </ul>
-      </details>
+      <Header />
       <PreviewProvider>
         <div
           style={{

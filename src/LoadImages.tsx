@@ -1,6 +1,5 @@
 import cardList from "./assets/cards.json"
 import cardstyle from "./imageStyle.module.css"
-import { cardData } from "./assets/json"
 import { v4 as uuidv4 } from "uuid"
 import { Card, isCardCategory, toCardCategoryfromString } from "./Card"
 import { cardTypeConvert } from "./CardView"
@@ -9,7 +8,7 @@ import { cardTypeConvert } from "./CardView"
 
 const LoadCards = () => {
 
-  console.log("cardData",cardData);
+  //console.log("cardData",cardData);
 
   const images = Object.entries(cardList).map(
     ([key, val]) =>

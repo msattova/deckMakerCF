@@ -16,7 +16,6 @@ type DeckListType = {
 
 //デッキ一覧表示コンポーネント
 const DeckList = ({cards, limit, setCardItems, isShrink, setCountCard}: DeckListType) => {
-  //const { isOver, setNodeRef} = useDroppable({id: id});
   const rowCardsNum = 5;
   return (
     <div

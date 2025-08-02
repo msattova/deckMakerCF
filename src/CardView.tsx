@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid"
 
-import { CardCategory, CardType, CountCardType } from "./Card";
+import { CardCategory, CardType, CountCardType, cardTypeConvert } from "./Card";
 import { usePreviewCard } from "./previewContext";
 import { selectCard } from "./ControlSqlite";
 
@@ -19,6 +19,7 @@ const addCardItem = (
   sameCardLimit: number
 ) => {
   console.log(countCard)
+  console.log("items", cardItems)
   // すでにカードが同名カードの上限枚数分デッキに入っているなら追加しない
   if (countCard.length != 0 && countCard.filter(elm => elm.id == src).length != 0 && countCard.filter(elm => elm.id == src)[0].num == sameCardLimit){
     return;
@@ -68,7 +69,7 @@ const removeCardItem = (
 };
 */
 
-type CardView = {
+type CardViewType = {
   setPlayingItems: React.Dispatch<React.SetStateAction<CardType[]>>;
   setLifeItems: React.Dispatch<React.SetStateAction<CardType[]>>;
   setFragment: React.Dispatch<React.SetStateAction<CardType | undefined>>;
@@ -81,7 +82,7 @@ type CardView = {
   sameCardLimit: number;
 };
 
-const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setFragment, playingLimit, lifeLimit, countCard, setCountCard, sameCardLimit }: CardView) => {
+const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setFragment, playingLimit, lifeLimit, countCard, setCountCard, sameCardLimit }: CardViewType) => {
   const previewCard = usePreviewCard();
 
   //console.log("cardView", previewCard);
@@ -90,6 +91,10 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
 
   const result = filename ? selectCard(filename, previewCard.type) : [];
   const cardData = (result.length != 0 ? result[0] : null );
+  console.log("cardData", cardData)
+  if (cardData != null){
+    console.log("cardColor", cardData.color.split("/"));
+  }
   return (
     <div>
       {previewCard.src != "" ? (
@@ -140,7 +145,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                     id: uuidv4(),
                     src: previewCard.src,
                     type: previewCard.type,
-                    color: previewCard.color
+                    color: cardData.color.split("/"),
                   });
                 }}
               >
@@ -154,7 +159,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                     addCardItem(
                       previewCard.src,
                       previewCard.type,
-                      previewCard.color,
+                      cardData.color.split("/"),
                       playingItems,
                       playingLimit,
                       countCard,
@@ -172,7 +177,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                     addCardItem(
                       previewCard.src,
                       previewCard.type,
-                      previewCard.color,
+                      cardData.color.split("/"),
                       lifeItems,
                       lifeLimit,
                       countCard,
@@ -220,26 +225,6 @@ type TextDataType = {
   condition: string | undefined;
   race: string | undefined;
 };
-
-
-const cardTypeConvert = (card_type: CardCategory) : string => {
-    switch (card_type) {
-      case "fragment":
-        return "真祖の断片";
-      case "arts":
-        return "権能";
-      case "kin":
-        return "眷属";
-      case "relic":
-        return "秘宝";
-      case "territory":
-        return "領地";
-      default:
-        return "未定義";
-    }
-};
-
-
 
 const TextView = ({cardType, text, color, power, cost, condition, race}: TextDataType) => {
 
@@ -316,4 +301,4 @@ const TextView = ({cardType, text, color, power, cost, condition, race}: TextDat
   );
 }
 
-export { CardView, cardTypeConvert };
+export { CardView };

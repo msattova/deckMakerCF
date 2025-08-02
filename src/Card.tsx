@@ -5,7 +5,6 @@ import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { Color } from "./Color";
-import { getColor } from "./ControlSqlite";
 
 type CardCategory =
   | "fragment"
@@ -89,12 +88,30 @@ const RemovableCard = ({card, setCardItems, setCountCard}: RemovableCardType) =>
   );
 };
 
+const cardTypeConvert = (card_type: CardCategory): string => {
+  switch (card_type) {
+    case "fragment":
+      return "真祖の断片";
+    case "arts":
+      return "権能";
+    case "kin":
+      return "眷属";
+    case "relic":
+      return "秘宝";
+    case "territory":
+      return "領地";
+    default:
+      return "未定義";
+  }
+};
+
 
 export {
   RemovableCard,
   Card,
   isCardCategory,
-  toCardCategoryfromString
-  };
+  toCardCategoryfromString,
+  cardTypeConvert,
+};
 export type { CardType, CountCardType, CardCategory };
 

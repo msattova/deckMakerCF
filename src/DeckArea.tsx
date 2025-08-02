@@ -4,6 +4,7 @@ import { CardType, RemovableCard, Card, CountCardType } from "./Card";
 import deckStyles from "./deckStyle.module.css"
 import { DownloadDeckButton, DownloadCardButton } from "./DownloadZip";
 import { useCallback, useState } from "react";
+import { DeckColorView } from "./Color";
 
 type DeckListType = {
   cards: CardType[];
@@ -17,6 +18,7 @@ type DeckListType = {
 //デッキ一覧表示コンポーネント
 const DeckList = ({cards, limit, setCardItems, isShrink, setCountCard}: DeckListType) => {
   const rowCardsNum = 5;
+  console.log(cards);
   return (
     <div
       style={{
@@ -73,6 +75,7 @@ const DeckArea = ({id, title, cards, limit, downloadName, setCardItems, setCount
         <DownloadDeckButton targetFiles={cards} deckName={downloadName} />
         <button onClick={toggleShrink}>{isShrink ? "拡大" : "縮小"}</button>
       </div>
+      <DeckColorView cards={cards} />
       <div className={deckStyles.deckContainer}>
         <DeckList id={id} cards={cards} limit={limit} setCardItems={setCardItems} isShrink={isShrink} setCountCard={setCountCard} />
       </div>
@@ -119,7 +122,7 @@ const FragmentArea = ({card}: FragmentAreaType) => {
                 id={card.id}
                 src={card.src}
                 type={card.type}
-                color={[]}
+                color={card.color}
               />
             ) : (
               <p>真祖の断片が登録されていません</p>

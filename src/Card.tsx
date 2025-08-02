@@ -94,34 +94,8 @@ const RemovableCard = ({card, setCardItems, setCountCard}: RemovableCardType) =>
   );
 };
 
-const AddableCard = ({ card, setCardItems, cardItems, cardLimit }: AddableCardType) => {
-  const { id, src, type } = card;
-  return (
-    <div
-      onDoubleClick={(_) => {
-        setCardItems((prev) => [
-          ...prev,
-          {
-            id: uuidv4(),
-            card_id: id,
-            src: src,
-            type: type,
-          },
-        ]);
-        //もし上限枚数より多ければ最初に追加されたカードを取り除く
-        if (cardItems.length >= cardLimit) {
-          setCardItems((prev) => prev.slice(1, cardLimit + 1));
-        }
-      }}
-    >
-      <Card id={id} src={src} type={type} />
-    </div>
-  );
-};
-
 
 export {
-  AddableCard,
   RemovableCard,
   Card,
   isCardCategory,

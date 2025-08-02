@@ -5,10 +5,12 @@ import { usePreviewCard } from "./previewContext";
 import { selectCard } from "./ControlSqlite";
 
 import cardViewStyle from "./cardViewStyle.module.css"
+import { Color, colorConvert } from "./Color";
 
 const addCardItem = (
   src: string,
   type: CardCategory,
+  color: Color[],
   cardItems: CardType[],
   cardLimit: number,
   countCard: CountCardType[],
@@ -27,6 +29,7 @@ const addCardItem = (
       id: uuidv4(),
       src: src,
       type: type,
+      color: color
     },
   ]);
   setCountCard((prev) => {
@@ -137,6 +140,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                     id: uuidv4(),
                     src: previewCard.src,
                     type: previewCard.type,
+                    color: previewCard.color
                   });
                 }}
               >
@@ -150,6 +154,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                     addCardItem(
                       previewCard.src,
                       previewCard.type,
+                      previewCard.color,
                       playingItems,
                       playingLimit,
                       countCard,
@@ -167,6 +172,7 @@ const CardView = ({ playingItems, lifeItems, setPlayingItems, setLifeItems, setF
                     addCardItem(
                       previewCard.src,
                       previewCard.type,
+                      previewCard.color,
                       lifeItems,
                       lifeLimit,
                       countCard,
@@ -233,24 +239,7 @@ const cardTypeConvert = (card_type: CardCategory) : string => {
     }
 };
 
-const colorConvert = (color: string) => {
-  switch (color) {
-    case "red":
-      return "赤";
-    case "blue":
-      return "青";
-    case "white":
-      return "白";
-    case "black":
-      return "黒";
-    case "green":
-      return "緑";
-    case "colorless":
-      return "無色";
-    default:
-      return "無色";
-  }
-};
+
 
 const TextView = ({cardType, text, color, power, cost, condition, race}: TextDataType) => {
 

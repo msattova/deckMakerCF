@@ -119,6 +119,7 @@ const FragmentArea = ({card}: FragmentAreaType) => {
                 id={card.id}
                 src={card.src}
                 type={card.type}
+                color={[]}
               />
             ) : (
               <p>真祖の断片が登録されていません</p>

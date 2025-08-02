@@ -4,6 +4,9 @@ import { useSetPreviewCard } from "./previewContext";
 import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { Color } from "./Color";
+import { getColor } from "./ControlSqlite";
+
 type CardCategory =
   | "fragment"
   | "arts"
@@ -12,11 +15,11 @@ type CardCategory =
   | "territory"
   | undefined ;
 
-
 type CardType = {
   id: string;
   src: string;
   type: CardCategory;
+  color: Color[];
 }
 
 type CountCardType = {
@@ -45,11 +48,11 @@ const isCardCategory = (str: string | undefined): str is CardCategory => {
   return str !== undefined && ["fragment", "arts", "kin", "relic", "territory"].includes(str);
 }
 
-const Card = ({ id, src, type }: CardType) => {
+const Card = ({ id, src, type, color }: CardType) => {
   const filename = src.split('/').pop()?.replace(".png", "");
   const setCard = useSetPreviewCard();
   const set = useCallback(() => {
-    setCard({ id: uuidv4(), src: src, type: type });
+    setCard({ id: uuidv4(), src: src, type: type, color: color });
   }, [setCard]);
   // src単体だと先頭に'/'が含まれてしまうのでsliceで1文字目の'/'を抜いている
   return (
@@ -71,16 +74,8 @@ type RemovableCardType = {
   setCountCard: React.Dispatch<React.SetStateAction<CountCardType[]>>;
 };
 
-type AddableCardType = {
-  card: CardType;
-  setCardItems: React.Dispatch<React.SetStateAction<CardType[]>>;
-  cardItems: CardType[];
-  cardLimit: number;
-  countCard: CountCardType[];
-};
-
 const RemovableCard = ({card, setCardItems, setCountCard}: RemovableCardType) => {
-  const {id, src, type} = card;
+  const {id, src, type, color} = card;
   return (
   <div
   onDoubleClick={(_)=>{
@@ -89,7 +84,7 @@ const RemovableCard = ({card, setCardItems, setCountCard}: RemovableCardType) =>
 
     setCountCard((prev) => prev.map(elm => elm.id == src ? {id: src, num: elm.num-1 } : {id: src, num: elm.num}));
   }}>
-    <Card id={id} src={src} type={type}/>
+    <Card id={id} src={src} type={type} color={color}/>
   </div>
   );
 };

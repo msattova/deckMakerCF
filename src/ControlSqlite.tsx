@@ -131,6 +131,27 @@ const selectCard = (name: string, type: CardCategory): any[] => {
   return result;
 };
 
+const getColor = (name: string, type: CardCategory): any[] =>
+{
+
+  const result: any[] = [];
+  if (!db) {
+    return [];
+  }
+  try {
+    db.exec({
+      sql: `SELECT color FROM cards
+            WHERE name='${name}'
+            AND card_type='${type ? type : "undefined"}';`,
+      rowMode: "object",
+      resultRows: result,
+    });
+  } catch (err: any) {
+    error("selectCard()", err);
+  }
+  return result;
+}
+
 const start = async (sqlite3: Sqlite3Static) => {
   //log("Running SQLite3 version", sqlite3.version.libVersion);
   if (db) {
@@ -187,4 +208,4 @@ const initializeSQLite = async () => {
   }
 };
 
-export { initializeSQLite, closeDB, selectCard };
+export { initializeSQLite, closeDB, selectCard, getColor };

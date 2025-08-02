@@ -21,6 +21,7 @@ const LoadCards = () => {
                 id={uuidv4()}
                 src={`/cards/${key}/${elm}`}
                 type={isCardCategory(key) ? key : undefined}
+                color={[]}
               />
           )}
         </div>

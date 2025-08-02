@@ -3,7 +3,7 @@ import { createContext, Dispatch, SetStateAction, FC, useState, useContext } fro
 import { CardType } from "./Card";
 
 
-const previewContext = createContext<CardType>({id: "", src: "", type: undefined});
+const previewContext = createContext<CardType>({id: "", src: "", type: undefined, color: []});
 
 const setPreviewContext = createContext<Dispatch<SetStateAction<CardType>>>(
   () => undefined
@@ -18,6 +18,7 @@ const PreviewProvider: FC<React.PropsWithChildren<{}>> = ({children}) => {
     id: "",
     src: "",
     type: undefined,
+    color: [],
   });
   return (
     <previewContext.Provider value={preview}>

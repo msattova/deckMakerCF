@@ -6,7 +6,7 @@ import { cardTypeConvert } from "./Card"
 import { getColor } from "./ControlSqlite"
 
 
-
+// カード画像を読み込み、一覧に表示
 const LoadCards = () => {
 
   //console.log("cardData",cardData);

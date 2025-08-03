@@ -38,9 +38,8 @@ const cardTemplate = (frontFileName: string, backFileName: string) => `
     </card>
 `;
 
-
+  //裏面画像が未指定の場合、ユドナリウムのデフォルトのトランプ画像を指定しておく
 function makeXML(imageDataList: ImageDataType[], backImageName = "./assets/images/trump/z02.gif") {
-  //裏面画像にはユドナリウムのデフォルトのトランプ画像を指定しておく
   const cardList = imageDataList.map((imageData: ImageDataType) => cardTemplate(imageData.encryptedName, backImageName));
   return xmlTemplate(cardList);
 }
